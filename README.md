@@ -8,7 +8,9 @@ A collection of personal agent workflows.
 |-------|-------------|
 | [commit](commit/SKILL.md) | Propose and create an approved batch of Conventional Commits |
 | [commit-and-push](commit-and-push/SKILL.md) | Commit and push changes to the configured upstream |
-| [execute-approved-plan](execute-approved-plan/SKILL.md) | Deliver the smallest complete implementation of an agreed plan |
+| [create-spec](create-spec/SKILL.md) | Define and stress-test a feature before implementation |
+| [create-plan](create-plan/SKILL.md) | Turn an approved feature spec into an implementation plan |
+| [execute-approved-plan](execute-approved-plan/SKILL.md) | Execute an approved plan as a live implementation ledger |
 
 ## Installation
 
