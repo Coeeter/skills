@@ -1,6 +1,6 @@
 ---
 name: commit
-description: Split current Git worktree changes into logical commits with one-line Conventional Commit messages without pushing. Use when the user asks to commit changes, create commits, group changes into commits, or use conventional commit messages but does not ask to push.
+description: Commit requested worktree changes without pushing.
 ---
 
 # Commit
@@ -12,12 +12,14 @@ description: Split current Git worktree changes into logical commits with one-li
    - Use one commit only when the diff represents one behavior and splitting would leave misleading or incoherent commits. If safe grouping remains ambiguous after inspecting hunks, choose fewer broader commits—but never combine clearly independent features merely because they overlap.
    - Do not create one commit per file.
 3. Run the repository's required checks unless they already passed after the latest change. Stop if checks or hooks fail.
-4. Present the next proposed commit before staging:
+4. Present the complete ordered commit map before staging anything. For every proposed commit show:
+   - `Commit N`
    - `Message:` the exact single-line Conventional Commit message: `<type>(<optional-scope>): <imperative summary>`. Use no body. Prefer `feat`, `fix`, `refactor`, `test`, `docs`, or `chore`.
    - `Changes:` every path and hunk it will include, each with a concise summary.
-5. Wait for the user to approve, revise, or stop. Approval applies only to the displayed commit. For a revision, update the proposal and ask again.
-6. Stage only the approved paths or hunks. Never use `git add .` when unrelated changes exist. Verify the staged diff matches the approved proposal, then commit with the approved message.
-7. Inspect the remaining diff after every commit, update the commit map, and return to step 4. Do not amend, rewrite history, bypass hooks, or push.
-8. Report the commit hashes/messages and whether the worktree is clean.
+   Every worktree change must be assigned to exactly one proposed commit or explicitly listed as excluded.
+5. Wait for one approval of the complete commit map. The user may approve the entire map, revise any entry, or stop. A revision invalidates the prior proposal; present the complete revised map for approval.
+6. Stage and create the approved commits in order. Stage only each commit's approved paths or hunks. Never use `git add .` when unrelated changes exist. Before each commit, verify the staged diff matches that entry in the approved map. If the worktree or grouping has changed, stop and present a complete revised map for approval.
+7. Do not amend, rewrite history, bypass hooks, or push.
+8. Report the commit hashes/messages, excluded changes, and whether the worktree is clean.
 
 If the worktree has no changes, do not create an empty commit. When grouping is ambiguous, prefer several coherent feature commits over one repository-wide commit.

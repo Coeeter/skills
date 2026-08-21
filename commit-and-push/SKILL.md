@@ -1,6 +1,6 @@
 ---
 name: commit-and-push
-description: Split current Git worktree changes into logical commits with one-line Conventional Commit messages, commit them, and push the current branch. Use when the user asks to commit and push changes, especially when they request multiple commits, grouped commits, or conventional commit messages.
+description: Commit requested worktree changes and push the current branch.
 ---
 
 # Commit and Push
