@@ -1,13 +1,14 @@
 # Skills
 
-A collection of agent skills for Git workflows.
+A collection of personal agent workflows.
 
 ## Skills
 
 | Skill | Description |
 |-------|-------------|
-| [commit](commit/SKILL.md) | Split worktree changes into logical commits with Conventional Commit messages |
+| [commit](commit/SKILL.md) | Propose and create an approved batch of Conventional Commits |
 | [commit-and-push](commit-and-push/SKILL.md) | Commit and push changes to the configured upstream |
+| [execute-approved-plan](execute-approved-plan/SKILL.md) | Deliver the smallest complete implementation of an agreed plan |
 
 ## Installation
 
