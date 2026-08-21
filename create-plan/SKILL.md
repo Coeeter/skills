@@ -12,14 +12,14 @@ Turn `docs/<feature>/spec.md` into an approved, agent-neutral implementation rou
 3. Write `docs/<feature>/plan.md` with status `Draft` and:
    - the repository-relative spec path and requirement mapping;
    - the chosen approach and important rejected alternatives;
-   - numbered implementation phases, split only at independently verifiable boundaries;
-   - within each phase, the spec requirements covered, affected surfaces, concrete changes, and verification evidence required;
+   - three to six numbered phases by default, each a meaningful, committable working slice;
+   - within each phase, the requirements covered, outcome, expected surfaces, concrete changes, validation commands, validation tier (`Focused`, `Integration`, or `Final`), and exact Conventional Commit message;
    - risks, migration or rollout needs, explicit non-goals, and a compact execution-state section initialized as `Not started`.
-   Prefer the smallest complete design. Additional machinery must be justified by a requirement, constraint, observed blocker, or approved tradeoff. Completion: every spec requirement maps to at least one phase and one verification boundary.
-4. Reconcile spec requirement → plan phase → expected evidence. Present unresolved choices and a concise plan summary, then wait for approval. Incorporate requested changes and mark the plan `Approved` only after explicit approval. Completion: a fresh agent with only the repository, spec, and plan can begin execution without knowing the model, thread, or conversation that produced them.
+   Combine adjacent work when splitting it would require temporary fallbacks, shared-file hunk surgery, or commits that are not independently understandable. Use focused checks during implementation; reserve broad workspace, browser, E2E, and production-equivalent checks for the few phases that reach those boundaries. Prefer the smallest complete design. Completion: every requirement maps to a phase, evidence boundary, and local commit.
+4. Present unresolved choices, the plan summary, and the complete ordered commit map. State that approval authorizes one-shot execution and the listed local commits, but not pushing, deployment, destructive actions, material scope changes, or unrelated fixes. Incorporate requested changes and mark the plan `Approved` only after explicit approval. Completion: a fresh agent can execute and commit the plan without another decision unless blocked.
 
 ## Ledger contract
 
-The plan becomes a ledger only after approval. `execute-approved-plan` owns its execution-state updates. Keep approved intent and execution records separate: update current phase, phase status, requirement coverage, changed surfaces, concise verification results, deviations, blockers, and next action. Change requirements or approach only through an explicit plan revision approved by the user.
+The plan becomes a ledger only after approval. `execute-approved-plan` updates it at commit boundaries with phase status, requirement IDs covered, concise evidence, deviations, blockers, and the next phase. Keep approved intent and execution records separate. Change requirements, approach, validation boundaries, or commit outcomes only through an explicit plan revision approved by the user.
 
-This skill plans but does not implement. It does not authorize commits, pushes, deployments, destructive actions, or unrelated changes.
+This skill plans but does not implement. Plan approval authorizes only the local commits listed in its commit map. It does not authorize pushes, deployments, destructive actions, material scope changes, or unrelated fixes.
