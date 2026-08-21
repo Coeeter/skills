@@ -8,9 +8,8 @@ A collection of personal agent workflows.
 |-------|-------------|
 | [commit](commit/SKILL.md) | Propose and create an approved batch of Conventional Commits |
 | [commit-and-push](commit-and-push/SKILL.md) | Commit and push changes to the configured upstream |
-| [create-spec](create-spec/SKILL.md) | Define and stress-test a feature before implementation |
-| [create-plan](create-plan/SKILL.md) | Turn an approved feature spec into an implementation plan |
-| [execute-approved-plan](execute-approved-plan/SKILL.md) | Execute an approved plan as a live implementation ledger |
+| [create-plan](create-plan/SKILL.md) | Grill and turn a feature into an approved implementation plan |
+| [execute-approved-plan](execute-approved-plan/SKILL.md) | Execute an approved plan continuously with local phase commits |
 | [init-agent](init-agent/SKILL.md) | Initialize repository instructions, context, and project skills |
 | [inline-advisor](inline-advisor/SKILL.md) | Consult another local coding model as a read-only advisor |
 
