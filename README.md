@@ -11,6 +11,7 @@ A collection of personal agent workflows.
 | [create-spec](create-spec/SKILL.md) | Define and stress-test a feature before implementation |
 | [create-plan](create-plan/SKILL.md) | Turn an approved feature spec into an implementation plan |
 | [execute-approved-plan](execute-approved-plan/SKILL.md) | Execute an approved plan as a live implementation ledger |
+| [init-agent](init-agent/SKILL.md) | Initialize repository instructions, context, and project skills |
 
 ## Installation
 
