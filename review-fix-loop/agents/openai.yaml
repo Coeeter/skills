@@ -1,0 +1,6 @@
+interface:
+  display_name: "Review Fix Loop"
+  short_description: "Run a Luna implementation and Sol review loop"
+  default_prompt: "Review my latest committed implementation with a dedicated read-only Sol task, fix confirmed findings here, and repeat until the reviewer passes it."
+policy:
+  allow_implicit_invocation: false
