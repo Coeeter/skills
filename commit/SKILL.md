@@ -6,34 +6,42 @@ disable-model-invocation: true
 
 # Commit
 
-Prepare and create local commits for the entire current worktree. Never push.
+Prepare local commits for the current worktree. Never push.
 
-**Invoking this skill does not authorize creating a commit.**
-First propose the commit list, then STOP. Create commits only after the user
-explicitly approves that proposal in a later message.
+**Invoking this skill does not authorize committing.**
+First propose the commit list, then STOP. Commit only after the user explicitly
+approves it in a later message.
 
 1. Inspect repository instructions, branch, status, complete diff, and recent
    commit style.
 
-2. Treat all current worktree changes as intended unless something is clearly
-   accidental, unsafe, generated junk, or secret-bearing.
+2. Treat all current changes as intended unless something is clearly accidental,
+   unsafe, generated junk, or secret-bearing.
 
-3. Group the work into the smallest reasonable number of coherent commits.
-   - Prefer one commit for one overall feature, fix, or refactor.
-   - Split only clearly independent changes.
-   - Do not over-optimize for atomic history.
+3. Group changes into the smallest reasonable number of coherent commits.
+   Prefer one commit for one overall feature, fix, or refactor. Split only
+   clearly independent work.
 
-4. Check that the work has credible validation evidence.
-   Unit tests, lint, types, and CI are supporting evidence only; substantial
-   runtime behavior should have real-boundary validation when practical.
+4. Check for credible validation. Unit tests, lint, types, and CI are supporting
+   evidence only; substantial runtime behavior should have real-boundary
+   validation when practical.
 
-5. Propose a concise ordered list of exact Conventional Commit messages.
+5. Propose the ordered commit list using exact **single-line Conventional Commit
+   messages**.
 
-6. **STOP. Do not stage or commit yet. Wait for explicit user approval.**
+6. **STOP. Do not stage or commit. Wait for explicit user approval.**
 
-7. After approval, stage the approved commits, verify each staged diff, and
+7. After approval, stage the approved changes, verify the staged diff, and
    commit.
+
+   Commit messages MUST:
+   - be exactly one line;
+   - use `<type>(<optional-scope>): <summary>`;
+   - contain no body, description, heredoc, newline, or additional paragraphs.
+
+   Use `git commit -m "<message>"` or the repository's equivalent one-line
+   commit command.
 
 8. Never push, force-push, amend, rewrite history, or bypass hooks.
 
-9. Report the created commits and whether the worktree is clean.
+9. Report the created commit hashes/messages and whether the worktree is clean.
