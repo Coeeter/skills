@@ -1,25 +1,104 @@
 ---
 name: init-agent
-description: Initialize or repair a repository's agent instructions and project skills.
+description: Use when setting up agent context for an existing repository.
+disable-model-invocation: true
 ---
 
 # Initialize Agent Context
 
-Create a concise, portable instruction system for a new or existing repository. Treat `AGENTS.md` as the shared index, `CLAUDE.md` as a compatibility entrypoint, and skills as procedures loaded only when relevant.
+Make an existing repository easy for coding agents to understand and work in
+without relying on prior conversation history.
 
-1. Invoke `writing-for-agents`; its rules govern all instruction files. Inspect the repository, existing agent instructions, manifests, scripts, CI, documentation, local skill inventory, and worktree state. Ask the user for project context they want agents to retain, while resolving discoverable facts yourself. Completion: existing guidance and authoritative validation commands are known before anything is written.
-2. Classify candidate guidance:
-   - `AGENTS.md`: concise repository-wide instructions, validation entrypoints, and context pointers;
-   - nested `AGENTS.md` or `AGENTS.override.md`: rules that apply only below a directory;
-   - `docs/context.md`: durable cross-feature decisions, invariants, external quirks, and recurring constraints;
-   - skills: multi-step or conditional procedures;
-   - environment: facts already obvious from code or configuration.
-   Keep one source of truth for each meaning. Completion: no instruction is duplicated merely to support another agent.
-3. Create or refine root `AGENTS.md` as an index. Include only rules that change agent behavior, repository-specific validation commands, and sharp pointers such as when to read `docs/context.md` or narrower documentation. Preserve relevant existing guidance and remove stale conflicts only when authorized. Completion: the file lets any coding agent find the next source without attempting to summarize the whole repository.
-4. Create or refine root `CLAUDE.md` with `@AGENTS.md` as its shared source. Add Claude-specific material only when a real Claude-only constraint exists. Prefer nested instructions for narrower scope. Completion: shared rules exist once and Claude Code can load them.
-5. Create or refine `docs/context.md` when durable context exists. Capture key decisions and the minimum rationale needed to preserve intent; link deeper sources. Exclude transient status, chat history, exhaustive architecture tours, and cheap repository lookups. Completion: every entry is useful across multiple features or recurring sessions.
-6. Research project-relevant skills using Skills CLI results and the skills' primary repositories. Assess each candidate against the actual stack and workflows, overlap with existing instructions or skills, expected frequency, scope, maintenance, and context cost. Present one complete proposal containing source, purpose, global or project scope, install method, and exclusions. Wait for explicit approval. Completion: every proposed skill earns its place and the user can approve the batch in one response.
-7. Install only approved skills with Skills CLI. For personal project-local installation, offer local Git exclusion; for team-shared installation, explain the tracked files before writing them. Do not infer sharing preference. Verify installed paths and agent discovery. Completion: approved skills are installed at the approved scope and no unapproved skill or repository file was added.
-8. Validate the setup against repository commands and each agent's discovery rules. Report created or changed files, installed skills, local exclusions, unresolved uncertainty, and whether changes are tracked. Completion: another supported agent can enter the repository and locate instructions, durable context, validation, and relevant procedures without relying on this thread.
+1. Inspect the repository before asking questions.
 
-This skill does not authorize commits, pushes, deployments, destructive actions, or unrelated project changes.
+   Read:
+   - existing agent instructions;
+   - README and important docs;
+   - manifests and package structure;
+   - scripts and supported commands;
+   - relevant architecture and entrypoints;
+   - tests, CI, deployment, and environment configuration;
+   - obvious coding conventions and framework usage.
+
+   Resolve anything discoverable from the repository yourself.
+
+2. Ask the user one concise round of questions for context the repository cannot
+   reveal, such as:
+   - What is this project for?
+   - What are its main goals?
+   - What are explicit non-goals?
+   - Who uses it and how?
+   - What behavior or architectural decisions must be preserved?
+   - What parts of the current project are temporary, legacy, or known bad?
+   - Are there workflow preferences agents should know?
+
+   Ask only questions that would materially improve future agent decisions.
+
+3. Build a concise durable context model from the repository and the answers.
+
+   Separate information by purpose:
+
+   - `AGENTS.md` -> how agents should work in this repository;
+   - `docs/context.md` -> what the project means and durable decisions behind it;
+   - `CLAUDE.md` -> compatibility entrypoint for Claude;
+   - nested instructions -> only when a directory genuinely needs different rules.
+
+4. Create or refine `AGENTS.md`.
+
+   Keep it short. Include only repository-specific guidance that changes agent
+   behavior, such as:
+   - supported development and validation commands;
+   - important architectural conventions;
+   - framework-specific expectations;
+   - real validation boundaries;
+   - important files or docs to read for certain work;
+   - repository-specific traps or constraints.
+
+   Do not copy facts that agents can cheaply discover from code.
+
+5. Create or refine `docs/context.md`.
+
+   Capture durable knowledge that future agents should not have to rediscover:
+   - project purpose;
+   - goals and non-goals;
+   - users and important workflows;
+   - architectural intent and invariants;
+   - important terminology;
+   - external constraints and quirks;
+   - significant product or engineering decisions with brief rationale;
+   - known legacy areas or intentional compromises.
+
+   Keep transient task state and implementation trivia out.
+
+6. Create or refine `CLAUDE.md` as:
+
+   `@AGENTS.md`
+
+   Add more only when Claude genuinely requires different instructions.
+
+7. Audit available project-relevant skills when useful.
+
+   Recommend only skills that clearly improve this repository's recurring
+   workflow or framework usage. Avoid redundant skills and unnecessary context
+   cost.
+
+   Ask before installing or creating skills.
+
+8. Reconcile the result.
+
+   Remove stale or duplicated guidance, preserve useful existing instructions,
+   and ensure each important rule has one clear source of truth.
+
+9. Present:
+   - your understanding of the project;
+   - files created or changed;
+   - important conventions captured;
+   - remaining uncertainties;
+   - optional skill recommendations.
+
+The finished repository should let a capable coding agent understand the
+project's purpose, constraints, conventions, and correct way to validate work
+without needing the conversation that created these files.
+
+Do not commit, push, deploy, or perform destructive actions unless separately
+requested.

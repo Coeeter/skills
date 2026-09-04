@@ -1,20 +1,65 @@
 ---
 name: execute-approved-plan
-description: Execute an approved feature plan continuously with local phase commits.
+description: Use when implementing a feature from its approved portable plan.
+disable-model-invocation: true
 ---
 
 # Execute Approved Plan
 
-Execute global `docs/context.md` plus an approved `docs/<feature>/{spec,plan}.md` pair continuously and deliver the smallest complete solution. For an older approved feature that has only `plan.md`, treat that plan as the combined product, requirement, and implementation authority; do not invent a missing spec during execution.
+Implement an approved feature continuously and keep its plan resumable without
+the original conversation.
 
-1. Read global context, the approved feature specification and plan, repository instructions, worktree, ledger, and code referenced by the active phase. Use the feature's approved global-context section for product meaning, spec for required behavior, and plan for implementation. For a legacy plan-only feature, use the plan for requirements and implementation while retaining applicable durable global context. Reject a draft feature section or authority artifact, missing commit map, cross-artifact conflict, or unsafe overlap with unrelated work. Confirm inherited status against repository state. Completion: the product model, requirements, route, and next phase are trustworthy.
-2. Execute phases in order without approval pauses. Work on one phase only and make routine file-level decisions that preserve its outcome. Run its listed validation; use broader boundaries only at the phase whose tier requires them. Completion: the phase outcome and mapped requirements have fresh evidence.
-3. Triage validation failures against the current diff. Fix failures caused by the phase. When a broad check exposes unrelated breakage, record it and continue if it does not invalidate the phase evidence; ask before repairing unrelated infrastructure. A required boundary that cannot produce credible evidence is a blocker. Completion: failures are classified without turning execution into unrelated repair work.
-4. At the phase boundary, update plan status, acceptance evidence, deviations, blockers, and next action; keep the approved global-context section and spec unchanged. For the final phase, first run final validation and reconcile context → spec → diff → evidence once; mark the plan `Complete`, `Partial`, or `Blocked`. Stage the complete phase normally, verify it matches the approved outcome, and commit with the exact planned message. Do not start the next phase until the commit succeeds. Routine adjacent implementation and test files are allowed when the outcome and message remain accurate. Completion: the phase is a coherent local commit and the plan is resumable.
-5. After the final commit, verify the commit sequence and worktree, then report outcomes, evidence, commits, and remaining uncertainty. Do not repeat passing validation. Completion: repository state and the plan tell the full truth.
+1. Read the approved spec and plan, relevant durable context, repository
+   instructions, worktree state, and affected code.
 
-Stop and ask only when repository reality requires a material product, UX, scope, architecture, data, security, cost, destructive, or irreversible decision; an approved assumption is false; required evidence is blocked; unrelated work overlaps unsafely; or a phase can no longer produce its approved outcome or commit. Explain the blocker, recommendation, and which context/spec/plan artifact must change. For an approved-contract amendment, pause; update the owning and downstream artifacts; mark the affected bundle `Draft`; present the revised behavior and complete commit map; and resume only after explicit reapproval. Do not pause for routine choices, expected intermediate failures, or fresh commit approval.
+2. Implement the approved outcome using the simplest complete solution.
 
-An implementation choice is routine only when every reasonable option preserves the same documented behavior and risk. If global context, feature spec, plan, repository authority, and preserved existing behavior do not determine a materially different outcome, ask the human rather than infer; incorporate the answer through the amendment flow before editing resumes.
+   Exercise engineering judgment for architecture, refactors, framework usage,
+   file organization, errors, concurrency, and other reversible choices.
 
-Plan approval authorizes its local phase commits. This skill never pushes, deploys, performs destructive actions, expands scope, or fixes unrelated problems without separate approval.
+   Do not preserve bad architecture merely because it already exists.
+   Do not pause for routine implementation decisions.
+
+3. Use relevant project or framework skills when available.
+
+4. Validate through the real boundary where the changed behavior can fail.
+
+   Prefer the simplest realistic execution:
+   - UI -> use the real app in a browser;
+   - backend or CLI -> run the real flow end to end locally;
+   - container -> build and run the actual container;
+   - API integration -> exercise the real boundary when safe;
+   - persistence -> use the real persistence path.
+
+   Do not build test machinery when running the actual feature is simpler and
+   stronger evidence.
+
+   Unit tests, type checks, lint, and CI are regression evidence only. Do not
+   treat them as proof that substantial runtime behavior works.
+
+5. When real validation exposes a failure, fix the root cause and repeat that
+   boundary. Record unrelated existing failures without expanding scope.
+
+6. Keep `plan.md` resumable. After meaningful milestones or before stopping,
+   record only:
+   - completed work;
+   - important discoveries or deviations;
+   - validation performed and its result;
+   - remaining work;
+   - blockers.
+
+7. Before claiming completion:
+   - reconcile implementation against the spec;
+   - exercise the important reachable real boundaries;
+   - inspect resulting state or output;
+   - run broad regression checks where useful.
+
+8. Report the feature as `Complete`, `Partial`, or `Blocked`, including any
+   meaningful remaining uncertainty.
+
+Stop and ask only when continuing requires a material change to approved product
+behavior, UX, scope, public contracts, security, cost, destructive state, or
+another explicit product decision.
+
+Do not commit, push, deploy, or perform destructive actions unless separately
+requested.

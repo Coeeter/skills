@@ -1,25 +1,44 @@
 ---
 name: commit
-description: Commit requested worktree changes without pushing.
+description: Use when asked to commit current changes locally.
+disable-model-invocation: true
 ---
 
 # Commit
 
-1. Read repository instructions, then inspect the branch, status, diff, and recent commit style.
-2. Preserve all user changes. Before staging, build an ordered commit map grouping files and hunks by user-visible feature or coherent concern.
-   - Default to multiple commits when changes span distinct features, packages, or product areas. A large diff (roughly 25+ files) is a strong signal to split, not a reason to collapse.
-   - Shared files, generated files, migrations, and cross-package wiring do not by themselves justify one mega-commit. Stage hunks where practical; place inseparable shared changes with the earliest commit that needs them.
-   - Use one commit only when the diff represents one behavior and splitting would leave misleading or incoherent commits. If safe grouping remains ambiguous after inspecting hunks, choose fewer broader commits—but never combine clearly independent features merely because they overlap.
-   - Do not create one commit per file.
-3. Run the repository's required checks unless they already passed after the latest change. Stop if checks or hooks fail.
-4. Present the complete ordered commit map before staging anything. For every proposed commit show:
-   - `Commit N`
-   - `Message:` the exact single-line Conventional Commit message: `<type>(<optional-scope>): <imperative summary>`. Use no body. Prefer `feat`, `fix`, `refactor`, `test`, `docs`, or `chore`.
-   - `Changes:` every path and hunk it will include, each with a concise summary.
-   Every worktree change must be assigned to exactly one proposed commit or explicitly listed as excluded.
-5. Wait for one approval of the complete commit map. The user may approve the entire map, revise any entry, or stop. A revision invalidates the prior proposal; present the complete revised map for approval.
-6. Stage and create the approved commits in order. Stage only each commit's approved paths or hunks. Never use `git add .` when unrelated changes exist. Before each commit, verify the staged diff matches that entry in the approved map. If the worktree or grouping has changed, stop and present a complete revised map for approval.
-7. Do not amend, rewrite history, bypass hooks, or push.
-8. Report the commit hashes/messages, excluded changes, and whether the worktree is clean.
+Commit the entire current worktree locally. Never push.
 
-If the worktree has no changes, do not create an empty commit. When grouping is ambiguous, prefer several coherent feature commits over one repository-wide commit.
+1. Inspect the repository instructions, branch, status, complete diff, and recent
+   commit style.
+
+2. Treat all current worktree changes as intended for this commit operation
+   unless something is clearly accidental, unsafe, generated junk, or secret-bearing.
+
+3. Group the work into the smallest reasonable number of coherent commits.
+   - Prefer one commit when the accumulated work represents one overall feature,
+     fix, or refactor.
+   - Split only when there are clearly independent changes that would make sense
+     to review or revert separately.
+   - Do not create one commit per file, phase, test, or minor concern.
+   - Do not over-optimize for perfectly atomic history.
+
+4. Check that the work has credible validation evidence.
+   - Unit tests, lint, type checks, and CI are supporting evidence only.
+   - Substantial runtime behavior should have been exercised through the real
+     boundary where it can fail when practical.
+   - Do not create mocked tests merely to justify committing.
+
+5. Propose the concise ordered commit list with exact Conventional Commit
+   messages. Keep the explanation short.
+
+6. Wait for the user to approve the commit list.
+
+7. Stage all worktree changes into the approved commits.
+   Use hunk-level staging only when needed to separate genuinely independent
+   changes.
+
+8. Verify each staged diff, then commit.
+
+9. Never push, force-push, amend, rewrite history, or bypass hooks.
+
+10. Report the created commit hashes/messages and whether the worktree is clean.
