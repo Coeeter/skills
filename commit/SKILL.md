@@ -6,39 +6,34 @@ disable-model-invocation: true
 
 # Commit
 
-Commit the entire current worktree locally. Never push.
+Prepare and create local commits for the entire current worktree. Never push.
 
-1. Inspect the repository instructions, branch, status, complete diff, and recent
+**Invoking this skill does not authorize creating a commit.**
+First propose the commit list, then STOP. Create commits only after the user
+explicitly approves that proposal in a later message.
+
+1. Inspect repository instructions, branch, status, complete diff, and recent
    commit style.
 
-2. Treat all current worktree changes as intended for this commit operation
-   unless something is clearly accidental, unsafe, generated junk, or secret-bearing.
+2. Treat all current worktree changes as intended unless something is clearly
+   accidental, unsafe, generated junk, or secret-bearing.
 
 3. Group the work into the smallest reasonable number of coherent commits.
-   - Prefer one commit when the accumulated work represents one overall feature,
-     fix, or refactor.
-   - Split only when there are clearly independent changes that would make sense
-     to review or revert separately.
-   - Do not create one commit per file, phase, test, or minor concern.
-   - Do not over-optimize for perfectly atomic history.
+   - Prefer one commit for one overall feature, fix, or refactor.
+   - Split only clearly independent changes.
+   - Do not over-optimize for atomic history.
 
 4. Check that the work has credible validation evidence.
-   - Unit tests, lint, type checks, and CI are supporting evidence only.
-   - Substantial runtime behavior should have been exercised through the real
-     boundary where it can fail when practical.
-   - Do not create mocked tests merely to justify committing.
+   Unit tests, lint, types, and CI are supporting evidence only; substantial
+   runtime behavior should have real-boundary validation when practical.
 
-5. Propose the concise ordered commit list with exact Conventional Commit
-   messages. Keep the explanation short.
+5. Propose a concise ordered list of exact Conventional Commit messages.
 
-6. Wait for the user to approve the commit list.
+6. **STOP. Do not stage or commit yet. Wait for explicit user approval.**
 
-7. Stage all worktree changes into the approved commits.
-   Use hunk-level staging only when needed to separate genuinely independent
-   changes.
+7. After approval, stage the approved commits, verify each staged diff, and
+   commit.
 
-8. Verify each staged diff, then commit.
+8. Never push, force-push, amend, rewrite history, or bypass hooks.
 
-9. Never push, force-push, amend, rewrite history, or bypass hooks.
-
-10. Report the created commit hashes/messages and whether the worktree is clean.
+9. Report the created commits and whether the worktree is clean.
